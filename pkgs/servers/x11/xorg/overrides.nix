@@ -389,6 +389,9 @@ self: super:
     installFlags = [
       "sdkdir=${placeholder "dev"}/include/xorg"
     ];
+    patches = [
+      ./scroll-distance.patch
+    ];
   });
 
   xf86inputsynaptics = super.xf86inputsynaptics.overrideAttrs (attrs: {
