@@ -35064,6 +35064,9 @@ with pkgs;
   puredata = callPackage ../applications/audio/puredata { };
   puredata-with-plugins = plugins: callPackage ../applications/audio/puredata/wrapper.nix { inherit plugins; };
 
+  pdnext = callPackage ../applications/audio/pdnext { };
+  pdnext-with-plugins = plugins: callPackage ../applications/audio/pdnext/wrapper.nix { inherit plugins; };
+
   puremapping = callPackage ../applications/audio/pd-plugins/puremapping { };
 
   pure-maps = libsForQt5.callPackage ../applications/misc/pure-maps { };
