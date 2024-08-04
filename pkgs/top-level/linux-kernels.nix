@@ -161,6 +161,14 @@ in {
       ];
     };
 
+    linux_6_5 = callPackage ../os-specific/linux/kernel/mainline.nix {
+      branch = "6.5";
+      kernelPatches = [
+        kernelPatches.bridge_stp_helper
+        kernelPatches.request_key_helper
+      ];
+    };
+
     linux_rt_6_1 = callPackage ../os-specific/linux/kernel/linux-rt-6.1.nix {
       kernelPatches = [
         kernelPatches.bridge_stp_helper
@@ -288,7 +296,6 @@ in {
     linux_6_2 = throw "linux 6.2 was removed because it has reached its end of life upstream";
     linux_6_3 = throw "linux 6.3 was removed because it has reached its end of life upstream";
     linux_6_4 = throw "linux 6.4 was removed because it has reached its end of life upstream";
-    linux_6_5 = throw "linux 6.5 was removed because it has reached its end of life upstream";
     linux_6_7 = throw "linux 6.7 was removed because it has reached its end of life upstream";
 
     linux_xanmod_tt = throw "linux_xanmod_tt was removed because upstream no longer offers this option";
@@ -620,6 +627,7 @@ in {
     linux_5_10 = recurseIntoAttrs (packagesFor kernels.linux_5_10);
     linux_5_15 = recurseIntoAttrs (packagesFor kernels.linux_5_15);
     linux_6_1 = recurseIntoAttrs (packagesFor kernels.linux_6_1);
+    linux_6_5 = recurseIntoAttrs (packagesFor kernels.linux_6_5);
     linux_6_6 = recurseIntoAttrs (packagesFor kernels.linux_6_6);
     linux_6_8 = recurseIntoAttrs (packagesFor kernels.linux_6_8);
     linux_6_9 = recurseIntoAttrs (packagesFor kernels.linux_6_9);
@@ -634,7 +642,6 @@ in {
     linux_6_2 = throw "linux 6.2 was removed because it reached its end of life upstream"; # Added 2023-05-26
     linux_6_3 = throw "linux 6.3 was removed because it reached its end of life upstream"; # Added 2023-07-22
     linux_6_4 = throw "linux 6.4 was removed because it reached its end of life upstream"; # Added 2023-10-02
-    linux_6_5 = throw "linux 6.5 was removed because it reached its end of life upstream"; # Added 2024-02-28
     linux_6_7 = throw "linux 6.7 was removed because it reached its end of life upstream"; # Added 2024-04-04
   };
 
