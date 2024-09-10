@@ -123,13 +123,8 @@ in buildPythonApplication rec {
     runHook postInstall
   '';
 
-  checkPhase = ''
-    runHook preCheck
-
-    HOME=$TEMPDIR ${python3.interpreter} setup.py test
-
-    runHook postCheck
-  '';
+  # TODO: checkPhase was removed since it relied on deprecated `python setup.py test`
+  # should be enabled again as part of https://github.com/NixOS/nixpkgs/issues/331159
 
   meta = with lib; {
     description = "Graphics application for digital painters";
