@@ -1,4 +1,4 @@
-{ hostPlatform, callPackage }:
+{ hostPlatform, callPackage, replaceEmojis ? true }:
 {
   signal-desktop =
     if hostPlatform.system == "aarch64-linux" then
@@ -6,7 +6,7 @@
     else if hostPlatform.isDarwin then
       callPackage ./signal-desktop-darwin.nix { }
     else
-      callPackage ./signal-desktop.nix { };
+      callPackage ./signal-desktop.nix { inherit replaceEmojis; };
   signal-desktop-beta = (callPackage ./signal-desktop-beta.nix { }).overrideAttrs (old: {
     meta = old.meta // {
       platforms = [ "x86_64-linux" ];
