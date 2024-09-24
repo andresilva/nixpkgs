@@ -49,14 +49,18 @@
 , libpulseaudio
 , xdg-utils
 , wayland
+, replaceEmojis ? true
 }:
 
 { pname
 , dir
 , version
 , hash
+, hash-original-emojis ? null
 , url
 }:
+
+assert replaceEmojis || hash-original-emojis !=null;
 
 let
   inherit (stdenv) targetPlatform;
@@ -95,7 +99,7 @@ stdenv.mkDerivation rec {
   # few additional steps and might not be the best idea.)
 
   src = fetchurl {
-    inherit url hash;
+    inherit url;
     recursiveHash = true;
     downloadToTemp = true;
     nativeBuildInputs = [ dpkg asar ];
@@ -114,11 +118,14 @@ stdenv.mkDerivation rec {
     # main derivation.
     postFetch = ''
       dpkg-deb -x $downloadedFile $out
+    '' + lib.optionalString replaceEmojis ''
       asar extract "$out/opt/${dir}/resources/app.asar" $out/asar-contents
       rm -r \
         "$out/opt/${dir}/resources/app.asar"{,.unpacked} \
         $out/asar-contents/node_modules/emoji-datasource-apple
     '';
+
+    hash = if replaceEmojis then hash else hash-original-emojis;
   };
 
   nativeBuildInputs = [
@@ -201,6 +208,7 @@ stdenv.mkDerivation rec {
     # Create required symlinks:
     ln -s libGLESv2.so "$out/lib/${dir}/libGLESv2.so.2"
 
+  '' + lib.optionalString replaceEmojis ''
     # Copy the Noto Color Emoji PNGs into the ASAR contents. See `src`
     # for the motivation, and the script for the technical details.
     emojiPrefix=$(
@@ -225,6 +233,7 @@ stdenv.mkDerivation rec {
       asar-contents \
       "$out/lib/${dir}/resources/app.asar"
 
+  '' + ''
     runHook postInstall
   '';
 
