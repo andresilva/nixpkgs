@@ -50,6 +50,7 @@
   libpulseaudio,
   xdg-utils,
   wayland,
+  replaceEmojis ? false,
 }:
 
 {
@@ -121,6 +122,7 @@ stdenv.mkDerivation rec {
     # main derivation.
     postFetch = ''
       ${extractPkg}
+    '' + lib.optionalString replaceEmojis ''
       asar extract "$out/${libdir}/resources/app.asar" $out/asar-contents
       rm -r \
         "$out/${libdir}/resources/app.asar"{,.unpacked} \
@@ -208,6 +210,7 @@ stdenv.mkDerivation rec {
     # Create required symlinks:
     ln -s libGLESv2.so "$out/lib/signal-desktop/libGLESv2.so.2"
 
+  '' + lib.optionalString replaceEmojis ''
     # Copy the Noto Color Emoji PNGs into the ASAR contents. See `src`
     # for the motivation, and the script for the technical details.
     emojiPrefix=$(
@@ -232,6 +235,7 @@ stdenv.mkDerivation rec {
       asar-contents \
       "$out/lib/signal-desktop/resources/app.asar"
 
+  '' + ''
     runHook postInstall
   '';
 

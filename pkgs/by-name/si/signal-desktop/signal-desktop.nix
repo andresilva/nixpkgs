@@ -8,5 +8,5 @@ callPackage ./generic.nix { } rec {
   extractPkg = "dpkg-deb -x $downloadedFile $out";
 
   url = "https://updates.signal.org/desktop/apt/pool/s/signal-desktop/signal-desktop_${version}_amd64.deb";
-  hash = "sha256-rH1iuyVYoUNFvj2Z9DI5MXcX+sXjN2NSW2uaKafTO9M=";
+  hash = "sha256-366/haawoLHhavJhWMGunik/YvxUYCZSRAfJ8e2wA54=";
 }
