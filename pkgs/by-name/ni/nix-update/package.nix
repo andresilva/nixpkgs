@@ -2,6 +2,7 @@
   lib,
   callPackage,
   fetchFromGitHub,
+  fetchpatch,
   nix,
   nix-prefetch-git,
   nixpkgs-review,
@@ -20,6 +21,13 @@ python3Packages.buildPythonApplication (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-LT66e5NtAJRp0E8QXKeePdTCNpH+CMvJNF1ayzBr4rw=";
   };
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/Mic92/nix-update/pull/692.patch";
+      hash = "sha256-CVSihQevWIwKSnjKo9ilw1hdi4a1t0xr6DunAUKSBFA=";
+    })
+  ];
 
   build-system = [ python3Packages.setuptools ];
 
